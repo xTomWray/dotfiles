@@ -1,0 +1,9 @@
+# ~/.zprofile - managed by chezmoi
+
+{{ if eq .chezmoi.os "darwin" -}}
+# Homebrew (Apple Silicon)
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end -}}
+
+# Ensure ~/.local/bin is in PATH
+export PATH="$HOME/.local/bin:$PATH"

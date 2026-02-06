@@ -1,0 +1,57 @@
+# ~/.zshrc - managed by chezmoi
+
+# ----- Zinit -----
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d "$ZINIT_HOME" ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d "$ZINIT_HOME/.git" ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Plugins
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-syntax-highlighting
+
+# Load completions
+autoload -Uz compinit && compinit
+zinit cdreplay -q
+
+# ----- History -----
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+
+# ----- Tools -----
+
+# fzf
+{{ if eq .chezmoi.os "darwin" -}}
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+{{ else -}}
+[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+{{ end -}}
+
+# zoxide (cd replacement)
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+
+# direnv
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+
+# mise (runtime version manager)
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
+
+# starship prompt (must be last)
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+
+# ----- Aliases -----
+alias cup='chezmoi update --apply'
+alias ll='ls -lah'
+{{ if .is_wsl -}}
+alias sync-wezterm='cp ~/.wezterm.lua /mnt/c/Users/{{ .win_user }}/.wezterm.lua && echo "Synced .wezterm.lua to Windows"'
+{{ end -}}
+
+# ----- PATH -----
+export PATH="$HOME/.local/bin:$PATH"

@@ -1,0 +1,15 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/bash
+set -euo pipefail
+
+ZSH_PATH="$(command -v zsh)"
+if [ -n "$ZSH_PATH" ] && [ "$SHELL" != "$ZSH_PATH" ]; then
+    echo "Changing default shell to zsh..."
+    # Ensure zsh is in /etc/shells
+    if ! grep -qF "$ZSH_PATH" /etc/shells; then
+        echo "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null
+    fi
+    sudo chsh -s "$ZSH_PATH" "$(whoami)"
+    echo "Default shell changed to zsh. Log out and back in for it to take effect."
+fi
+{{ end -}}

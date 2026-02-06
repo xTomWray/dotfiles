@@ -1,0 +1,14 @@
+{{ if .is_wsl -}}
+#!/bin/bash
+set -euo pipefail
+
+# wezterm.lua hash: {{ include "dot_wezterm.lua.tmpl" | sha256sum }}
+
+WIN_HOME="/mnt/c/Users/{{ .win_user }}"
+
+if [ -d "$WIN_HOME" ]; then
+    echo "Syncing WezTerm config to Windows host..."
+    cp "$HOME/.wezterm.lua" "$WIN_HOME/.wezterm.lua"
+    echo "Synced to $WIN_HOME/.wezterm.lua"
+fi
+{{ end -}}
