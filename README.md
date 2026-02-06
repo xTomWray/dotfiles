@@ -12,17 +12,14 @@ Cross-platform dotfiles managed by [chezmoi](https://chezmoi.io/). Targets **WSL
 
 ## Install
 
-### macOS / Linux
-
 ```sh
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply xTomWray/dotfiles
 ```
 
-### WSL2 (fresh Ubuntu)
+On a fresh WSL2 Ubuntu install, you may need `git` and `curl` first:
 
 ```sh
 sudo apt update && sudo apt install -y git curl
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply xTomWray/dotfiles
 ```
 
 On first run, chezmoi will prompt for your git name and email. Everything else is detected automatically.
