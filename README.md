@@ -13,7 +13,7 @@ Cross-platform dotfiles managed by [chezmoi](https://chezmoi.io/). Targets **WSL
 ## Install
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply xTomWray/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply xTomWray/dotfiles
 ```
 
 On a fresh WSL2 Ubuntu install, you may need `git` and `curl` first:
