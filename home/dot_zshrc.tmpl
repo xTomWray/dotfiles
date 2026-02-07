@@ -29,6 +29,18 @@ setopt hist_ignore_space
 # fzf
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+
+# Tab accepts autosuggestion if visible, otherwise does fzf/normal completion
+# Must be after fzf sources since fzf rebinds ^I
+_tab_accept_or_complete() {
+    if (( $#POSTDISPLAY )); then
+        zle autosuggest-accept
+    else
+        zle fzf-completion
+    fi
+}
+zle -N _tab_accept_or_complete
+bindkey '^I' _tab_accept_or_complete
 # zoxide (cd replacement)
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 
