@@ -1,13 +1,97 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
+local act = wezterm.action
 
--- Font
-config.font = wezterm.font('JetBrainsMono Nerd Font')
-config.font_size = 12.0
+
+-- Font (JetBrains Mono first, safe fallbacks after)
+config.font = wezterm.font_with_fallback({
+  "JetBrains Mono",
+
+  -- Nerd / symbol fallback for icons
+  "Symbols Nerd Font Mono",
+
+  -- Very common cross-platform monospace fonts
+  "Fira Code",
+  "Cascadia Mono",     -- Windows default
+  "Consolas",         -- Windows classic
+  "DejaVu Sans Mono", -- Linux default
+  "Menlo",            -- macOS
+  "Monaco",
+})
+
+
+
 
 -- Appearance
-config.color_scheme = 'Catppuccin Mocha'
+config.color_scheme = 'Molokai (Gogh)'
 config.window_background_opacity = 0.95
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = false
+config.font_size = 13.0
+
+-- Default to WSL2 Ubuntu 24.04 for new windows/tabs
+config.wsl_domains = {
+  {
+    name = "WSL:Ubuntu-24.04",
+    distribution = "Ubuntu-24.04",
+    default_cwd = "~",
+  },
+}
+
+config.default_domain = "WSL:Ubuntu-24.04"
+config.default_cwd = "~"
+
+-- Clipboard shortcuts 
+config.keys = {
+  -- Close just the current pane
+  {
+    key = 'w',
+    mods = 'CTRL|SHIFT',
+    action = act.CloseCurrentPane { confirm = true },
+  },
+
+  -- Split horizontally (top/bottom) and force HOME dir
+  {
+    key = 's',
+    mods = 'CTRL|SHIFT',
+    action = act.SplitVertical {
+      domain = 'CurrentPaneDomain',
+      cwd = "~",
+    },
+  },
+
+  -- Split vertically (left/right) and force HOME dir
+  {
+    key = 's',
+    mods = 'CTRL',
+    action = act.SplitHorizontal {
+      domain = 'CurrentPaneDomain',
+      cwd = "~",
+    },
+  },
+
+  -- Paste
+  {
+    key = "v",
+    mods = "CTRL",
+    action = wezterm.action.PasteFrom("Clipboard"),
+  },
+
+  -- Copy (only when something is selected)
+  {
+    key = "c",
+    mods = "CTRL",
+    action = wezterm.action.CopyTo("Clipboard"),
+  },
+
+  -- New tab: ALWAYS WSL Ubuntu-24.04 in ~
+  {
+    key = "t",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.SpawnCommandInNewTab {
+      domain = { DomainName = "WSL:Ubuntu-24.04" },
+      cwd = "~",
+    },
+  },
+}
 
 return config
