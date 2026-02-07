@@ -15,7 +15,7 @@
 {{- /* Detect Windows username for WSL file sync */ -}}
 {{- $win_user := "" -}}
 {{- if $is_wsl -}}
-{{-   $win_user = (output "/mnt/c/Windows/System32/cmd.exe" "/c" "echo %USERNAME%" | trim) -}}
+{{-   $win_user = promptStringOnce . "win_user" "Windows username (from /mnt/c/Users/)" -}}
 {{- end -}}
 
 {{- /* Prompt for git identity */ -}}
