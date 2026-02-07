@@ -1,29 +1,296 @@
-# Starship prompt config - managed by chezmoi
+# Starship prompt config
+
+add_newline = false
+command_timeout = 500
 
 format = """
+$os\
 $username\
 $hostname\
 $directory\
+$status\
+$character"""
+
+right_format = """
 $git_branch\
 $git_status\
+$git_metrics\
+$package\
+$c\
+$cmake\
+$crystal\
+$dart\
+$deno\
+$docker_context\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$haskell\
+$java\
+$julia\
+$kotlin\
+$lua\
+$nim\
+$nix_shell\
 $nodejs\
+$ocaml\
+$perl\
+$php\
 $python\
+$ruby\
 $rust\
-$cmd_duration\
-$line_break\
-$character"""
+$scala\
+$swift\
+$terraform\
+$typst\
+$vlang\
+$zig\
+$aws\
+$gcloud\
+$kubernetes\
+$cmd_duration"""
 
 [character]
 success_symbol = "[>](bold green)"
 error_symbol = "[>](bold red)"
 
+[git_branch]
+symbol = " "
+style = "purple"
+format = "[$symbol$branch(:$remote_branch)]($style) "
+
+[git_status]
+style = "yellow"
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = "="
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = "*"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+[git_metrics]
+disabled = false
+format = "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+
+[cmd_duration]
+min_time = 800
+show_milliseconds = false
+format = "[$duration](dimmed white) "
+
+[status]
+disabled = false
+format = "[$symbol$status]($style) "
+
+[package]
+symbol = "📦 "
+format = "[$symbol$version]($style) "
+
+# --- Languages ---
+
+[c]
+symbol = " "
+format = "[$symbol($version)]($style) "
+
+[cmake]
+symbol = "△ "
+format = "[$symbol($version)]($style) "
+
+[crystal]
+symbol = "💎 "
+format = "[$symbol($version)]($style) "
+
+[dart]
+symbol = "🎯 "
+format = "[$symbol($version)]($style) "
+
+[deno]
+symbol = "🦕 "
+format = "[$symbol($version)]($style) "
+
+[dotnet]
+symbol = "󰪮 "
+format = "[$symbol($version)(🎯 $tfm)]($style) "
+
+[elixir]
+symbol = "💧 "
+format = "[$symbol($version)]($style) "
+
+[elm]
+symbol = "🌳 "
+format = "[$symbol($version)]($style) "
+
+[erlang]
+symbol = " "
+format = "[$symbol($version)]($style) "
+
+[golang]
+symbol = "🐹 "
+format = "[$symbol($version)]($style) "
+
+[haskell]
+symbol = "λ "
+format = "[$symbol($version)]($style) "
+
+[java]
+symbol = "☕ "
+format = "[$symbol($version)]($style) "
+
+[julia]
+symbol = "ℯ "
+format = "[$symbol($version)]($style) "
+
+[kotlin]
+symbol = "🅺 "
+format = "[$symbol($version)]($style) "
+
+[lua]
+symbol = "🌙 "
+format = "[$symbol($version)]($style) "
+
+[nim]
+symbol = "👑 "
+format = "[$symbol($version)]($style) "
+
+[nix_shell]
+symbol = "❄️ "
+format = "[$symbol$state( \\($name\\))]($style) "
+
+[nodejs]
+symbol = "⬢ "
+format = "[$symbol($version)]($style) "
+
+[ocaml]
+symbol = "🐫 "
+format = "[$symbol($version)]($style) "
+
+[perl]
+symbol = "🐪 "
+format = "[$symbol($version)]($style) "
+
+[php]
+symbol = "🐘 "
+format = "[$symbol($version)]($style) "
+
+[python]
+symbol = "🐍 "
+format = "[$symbol($version)( \\($virtualenv\\))]($style) "
+
+[ruby]
+symbol = "💎 "
+format = "[$symbol($version)]($style) "
+
+[rust]
+symbol = "🦀 "
+format = "[$symbol($version)]($style) "
+
+[scala]
+symbol = "🔴 "
+format = "[$symbol($version)]($style) "
+
+[swift]
+symbol = "🐦 "
+format = "[$symbol($version)]($style) "
+
+[terraform]
+symbol = "💠 "
+format = "[$symbol$workspace]($style) "
+
+[typst]
+symbol = "t "
+format = "[$symbol($version)]($style) "
+
+[vlang]
+symbol = "V "
+format = "[$symbol($version)]($style) "
+
+[zig]
+symbol = "⚡ "
+format = "[$symbol($version)]($style) "
+
+# --- Cloud / Infra ---
+
+[aws]
+symbol = "☁️ "
+format = "[$symbol($profile)(\\($region\\))]($style) "
+
+[gcloud]
+symbol = "️🇬 "
+format = "[$symbol($account)(\\($region\\))]($style) "
+
+[docker_context]
+symbol = "🐳 "
+format = "[$symbol$context]($style) "
+
+[kubernetes]
+disabled = false
+symbol = "⎈ "
+format = "[$symbol$context(\\($namespace\\))]($style) "
+
+[os]
+disabled = false
+format = "$symbol"
+
+[os.symbols]
+Alpaquita = "🔔 "
+Alpine = "🏔️ "
+Amazon = "🙂 "
+Android = "🤖 "
+Arch = "🎗️ "
+Artix = "🎗️ "
+CentOS = "💠 "
+Debian = "🌀 "
+DragonFly = "🐉 "
+Emscripten = "🔗 "
+EndeavourOS = "🚀 "
+Fedora = "🎩 "
+FreeBSD = "😈 "
+Garuda = "🦅 "
+Gentoo = "🗜️ "
+HardenedBSD = "🛡️ "
+Illumos = "🐦 "
+Linux = "🐧 "
+Mabox = "📦 "
+Macos = "🍎 "
+Manjaro = "🥭 "
+Mariner = "🌊 "
+MidnightBSD = "🌘 "
+Mint = "🌿 "
+NetBSD = "🚩 "
+NixOS = "❄️ "
+OpenBSD = "🐡 "
+OpenCloudOS = "☁️ "
+openEuler = "🦉 "
+openSUSE = "🦎 "
+OracleLinux = "🦴 "
+Pop = "🍭 "
+Raspbian = "🍓 "
+Redhat = "🎩 "
+RedHatEnterprise = "🎩 "
+Redox = "🧪 "
+Solus = "⛵ "
+SUSE = "🦎 "
+Ubuntu = "🎯 "
+Unknown = "❓ "
+Windows = "🪟 "
+
+[username]
+show_always = true
+format = "[$user]($style):"
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style):"
+
 [directory]
 truncation_length = 3
 truncation_symbol = ".../"
-
-[git_branch]
-symbol = " "
-
-[cmd_duration]
-min_time = 2000
-show_milliseconds = false
+truncate_to_repo = true
+read_only = " 🔒"
+format = "[$path]($style)[$read_only]($read_only_style) "

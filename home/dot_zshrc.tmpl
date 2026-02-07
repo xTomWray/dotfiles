@@ -27,13 +27,8 @@ setopt hist_ignore_space
 # ----- Tools -----
 
 # fzf
-{{ if eq .chezmoi.os "darwin" -}}
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-{{ else -}}
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
-{{ end -}}
-
 # zoxide (cd replacement)
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 
@@ -49,9 +44,9 @@ command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 # ----- Aliases -----
 alias cup='chezmoi update --apply'
 alias ll='ls -lah'
-{{ if .is_wsl -}}
-alias sync-wezterm='cp ~/.wezterm.lua /mnt/c/Users/{{ .win_user }}/.wezterm.lua && echo "Synced .wezterm.lua to Windows"'
-{{ end -}}
+alias sync-wezterm='cp ~/.wezterm.lua /mnt/c/Users/postgres/.wezterm.lua && echo "Synced .wezterm.lua to Windows"'
+# WezTerm (Windows) helper from WSL
+alias wezterm-win='/mnt/c/Program\ Files/WezTerm/wezterm.exe'
 
 # ----- PATH -----
 export PATH="$HOME/.local/bin:$PATH"
