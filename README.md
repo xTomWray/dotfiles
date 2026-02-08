@@ -1,62 +1,60 @@
 # dotfiles
 
-Cross-platform dotfiles managed by [chezmoi](https://chezmoi.io/). Targets **WSL2 Ubuntu**, **macOS**, and **native Linux** with a single repo and one-command setup.
+Cross-platform dotfiles managed by [chezmoi](https://chezmoi.io/). One repo, one command — targets WSL2 Ubuntu 24.04, macOS, and native Linux.
 
-## What you get
+## Stack
 
-- **zsh** + starship (prompt) + zinit (plugins: autosuggest, completions, syntax highlighting)
-- **CLI tools**: fzf, zoxide, direnv, mise
-- **Git** config with templated identity
-- **WezTerm** config (WSL2: auto-synced to Windows host)
-- **Claude Code** user settings
+| Layer | Tool |
+|-------|------|
+| Shell | zsh + zinit (autosuggest, completions, syntax highlighting) |
+| Prompt | starship (requires a [Nerd Font](https://www.nerdfonts.com/)) |
+| Terminal | WezTerm (auto-synced to Windows host on WSL2) |
+| CLI | fzf, zoxide, direnv |
+| Runtimes | mise (Node, Python, etc.) |
+| AI | Claude Code (global preferences + settings) |
+| Git | Templated identity via chezmoi |
 
 ## Install
 
 ```sh
+# Prerequisites on a fresh WSL2 Ubuntu install
+sudo apt update && sudo apt install -y git curl
+
+# Bootstrap everything
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply xTomWray/dotfiles
 ```
 
-On a fresh WSL2 Ubuntu install, you may need `git` and `curl` first:
+Chezmoi prompts for git name and email on first run. Platform, WSL2, and Windows username are detected automatically.
 
-```sh
-sudo apt update && sudo apt install -y git curl
-```
-
-On first run, chezmoi will prompt for your git name and email. Everything else is detected automatically.
-
-## Daily commands
+## Usage
 
 | Command | Description |
 |---------|-------------|
 | `cup` | Pull latest dotfiles and apply |
-| `sync-wezterm` | Copy WezTerm config to Windows (WSL2 only) |
 | `chezmoi diff` | Preview pending changes |
-| `chezmoi apply` | Apply changes from source to home |
+| `chezmoi apply` | Apply changes |
 | `chezmoi add <file>` | Track a new dotfile |
 | `chezmoi edit <file>` | Edit a tracked template |
 
 ## Repo structure
 
-The repo uses `.chezmoiroot` so the project root stays clean. All chezmoi source state lives in `home/`:
+`.chezmoiroot` points chezmoi at `home/`, keeping the repo root clean.
 
 ```
 dotfiles/
-├── .chezmoiroot          # points chezmoi at home/
+├── CLAUDE.md                           # repo-level Claude Code instructions
+├── bin/chezmoi                         # chezmoi binary (bootstrap)
 ├── home/
-│   ├── .chezmoi.toml.tmpl    # platform detection + prompts
-│   ├── .chezmoiignore.tmpl   # per-OS file filtering
-│   ├── .chezmoiscripts/      # install scripts (apt/brew, zinit, starship, etc.)
-│   ├── dot_zshrc.tmpl        # zsh config
-│   ├── dot_zprofile.tmpl     # login env (Homebrew on macOS)
-│   ├── dot_wezterm.lua.tmpl  # WezTerm terminal config
+│   ├── .chezmoi.toml.tmpl             # platform detection + identity prompts
+│   ├── .chezmoiignore.tmpl            # per-OS file filtering
+│   ├── .chezmoiscripts/               # numbered install scripts (idempotent)
+│   ├── dot_zshrc.tmpl                 # zsh config
+│   ├── dot_zprofile.tmpl              # login env (Homebrew path on macOS)
+│   ├── dot_wezterm.lua.tmpl           # WezTerm terminal config
 │   ├── dot_config/
-│   │   ├── starship.toml     # prompt config
-│   │   └── private_git/      # git config + global ignore
-│   └── private_dot_claude/   # Claude Code settings
+│   │   ├── starship.toml              # prompt theme + modules
+│   │   └── private_git/               # git config + global ignore
+│   └── private_dot_claude/
+│       ├── CLAUDE.md                  # global Claude Code preferences
+│       └── settings.json              # Claude Code user settings
 ```
-
-## Notes
-
-- Starship requires a [Nerd Font](https://www.nerdfonts.com/) enabled in your terminal
-- Runtime versions (Node, Python, etc.) are managed by mise, not system packages
-- WezTerm runs natively on Windows/macOS; on WSL2 the config is synced automatically
