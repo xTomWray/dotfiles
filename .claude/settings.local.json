@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git config:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(git -C /home/tom/code/dotfiles log --oneline -20)",
+      "WebSearch",
+      "WebFetch(domain:www.chezmoi.io)",
+      "Bash(git -C /home/tom/code/dotfiles log --oneline --all)",
+      "WebFetch(domain:github.com)",
+      "Bash(echo:*)",
+      "Bash(ls:*)",
+      "Bash(python3:*)",
+      "Bash(command -v:*)",
+      "Bash(chezmoi doctor:*)",
+      "Bash(~/.local/bin/chezmoi doctor:*)",
+      "Bash(~/.local/bin/chezmoi managed:*)",
+      "Bash(~/.local/bin/chezmoi diff:*)",
+      "Bash(~/.local/bin/chezmoi init:*)"
+    ]
+  }
+}
