@@ -8,7 +8,6 @@ $os\
 $username\
 $hostname\
 $directory\
-$status\
 $character"""
 
 right_format = """
@@ -85,8 +84,7 @@ show_milliseconds = false
 format = "[$duration](dimmed white) "
 
 [status]
-disabled = false
-format = "[$symbol$status]($style) "
+disabled = true
 
 [package]
 symbol = "📦 "
