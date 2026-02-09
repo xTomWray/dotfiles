@@ -1,6 +1,32 @@
 {
   "permissions": {
-    "allow": [],
+    "allow": [
+      "Task",
+      "Bash",
+      "Bash(git log:*)",
+      "Glob",
+      "Grep",
+      "LS",
+      "Read",
+      "Edit",
+      "MultiEdit",
+      "Write",
+      "WebFetch",
+      "WebSearch"
+    ],
     "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/format-file.sh"
+          }
+        ]
+      }
+    ]
   }
 }
